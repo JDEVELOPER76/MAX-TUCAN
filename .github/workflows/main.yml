@@ -1,0 +1,36 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:   # botón manual en GitHub
+  push:
+    tags:
+      - 'v*'           # también al hacer un tag v1.0, v2.1, ...
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.2'
+          channel: stable
+          cache: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - run: pip install -U "flet[all]"
+
+      # Opcional: instalar tus dependencias
+      # - run: pip install -r requirements.txt
+
+      - run: flet build windows
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Windows-EXE
+          path: build/windows/runner/Release/
