@@ -1,36 +1,54 @@
-name: Build Windows EXE
+name: Flet Build Windows
 
 on:
-  workflow_dispatch:   # botón manual en GitHub
   push:
     tags:
-      - 'v*'           # también al hacer un tag v1.0, v2.1, ...
+      - 'v*'   # se ejecuta al crear un tag (v1.3, v2.0, etc.)
+  workflow_dispatch:  # permite lanzarlo manualmente desde GitHub
 
 jobs:
-  windows:
+  build:
     runs-on: windows-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v4
 
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.29.2'
-          channel: stable
-          cache: true
-
-      - uses: actions/setup-python@v5
+      - name: 🔧 Configurar Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          #cache: 'pip'
 
-      - run: pip install -U "flet[all]"
+      - name: 📦 Instalar Flet y dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install flet requests
 
-      # Opcional: instalar tus dependencias
-      # - run: pip install -r requirements.txt
+      - name: 🧱 Compilar app con Flet
+        run: |
+          flet build windows
+          dir build\windows\*
 
-      - run: flet build windows
-
-      - uses: actions/upload-artifact@v4
+      - name: 📤 Subir ejecutable (.exe)
+        uses: actions/upload-artifact@v4
         with:
-          name: Windows-EXE
-          path: build/windows/runner/Release/
+          name: MAX-TUCAN_EXE
+          path: build/windows/**
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: 📥 Descargar ejecutable
+        uses: actions/download-artifact@v4
+        with:
+          name: MAX-TUCAN_EXE
+          path: dist
+
+      - name: 🚀 Crear o actualizar Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
