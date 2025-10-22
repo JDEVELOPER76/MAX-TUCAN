@@ -1,10 +1,10 @@
-name: Flet Build Windows
+name: 🚀 Flet Build Windows
 
 on:
   push:
     tags:
       - 'v*'   # Se ejecuta al crear un tag tipo v1.3
-  workflow_dispatch:  # Para ejecutarlo manualmente
+  workflow_dispatch:  # Permite ejecutarlo manualmente desde GitHub
 
 jobs:
   build:
@@ -24,11 +24,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 🧱 Construir app con Flet
+      - name: 🧱 Compilar app con Flet (con emojis)
+        shell: pwsh
         run: |
+          Write-Host "🌟 Compilando MAX-TUCAN con Flet…"
+          # Forzar UTF-8 para que los emojis se muestren correctamente
+          $OutputEncoding = [System.Text.UTF8Encoding]::new()
+          # Opción para deshabilitar Rich si da problemas:
+          $Env:FLET_DISABLE_RICH = "0"
           flet build windows
-          # Mostrar los archivos generados para confirmar ruta
-          powershell -Command "Get-ChildItem build/windows -Recurse | Select-String '.exe'"
+          Write-Host "✅ Compilación terminada"
+          # Mostrar archivos generados
+          Get-ChildItem build/windows -Recurse | Select-String '.exe'
 
       - name: 📤 Subir ejecutable al artefacto
         uses: actions/upload-artifact@v4
