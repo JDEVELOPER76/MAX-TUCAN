@@ -1,8 +1,8 @@
 # Tucan-MAX 🦜
 
 **Versión:** 1.0.0  
-**Autor:** Tu Nombre / Empresa  
-**Sitio web:** [https://tucanmax.com](https://tucanmax.com)  
+**Autor:** JDVELOPER  
+**Sitio web:** [https://tucanmax.com](https://jdeveloper76.github.io/TUCAN-MAXWEB/)  
 
 ---
 
