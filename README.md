@@ -2,7 +2,7 @@
 
 **Versión:** 1.0.0  
 **Autor:** JDVELOPER  
-**Sitio web:** [https://tucanmax.com](https://jdeveloper76.github.io/TUCAN-MAXWEB/)  
+**Sitio web:** [https://tucanwebmax.com](https://jdeveloper76.github.io/TUCAN-MAXWEB/)  
 
 ---
 
