@@ -31,7 +31,7 @@ Esta aplicación combina una interfaz moderna con funcionalidades prácticas par
 
 - Windows 10 o superior  
 - CPU: 1.5 GHz o superior  
-- RAM: 1 GB mínimo  
+- RAM: 4 GB mínimo  
 - Espacio libre: 500 MB  (para pdf inlcuso mas)
 - No requiere instalación de Python (ejecutable independiente)  
 
